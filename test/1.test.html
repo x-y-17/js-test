@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<textarea name="" id="" cols="30" rows="10"></textarea>
+		<button onclick="click1()">点击</button>
+		
+		<script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.js"></script>
+
+		<script>
+			console.log(_);
+			const btn = document.querySelector("button");
+			let count = 0;
+			const debounceClick = (fn, delay) => {
+				console.log("1");
+				debounce(fn, delay);
+			};
+			function click1() {
+				console.log("click");
+			}
+			const debounce = (fn, delay) => {
+				let time;
+				return function () {
+					if (time) {
+						clearTimeout(time);
+					}
+					time = setTimeout(fn, delay);
+				};
+			};
+			// btn.onclick = debounce(click, 1000);
+			// btn.onclick = debounceClick(click, 1000);
+			// btn.addEventListener("click", debounceClick(click, 1000));
+		</script>
+	</body>
+</html>

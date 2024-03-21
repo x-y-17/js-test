@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			//地狱回调
+			setTimeout(function () {
+				//第一层
+				console.log("我是第一层地狱");
+				setTimeout(function () {
+					//第二层
+					console.log("我是第二层地狱");
+					setTimeout(function () {
+						//第三层
+						console.log("我是第三层地狱");
+					}, 1000);
+				}, 2000);
+			}, 3000);
+
+			//promise
+			function fn(str, delayTime) {
+				return new Promise((resolve, reject) => {
+					setTimeout(function () {
+						resolve(str);
+					}, delayTime);
+				});
+			}
+
+			fn("我是第一层天使", 1000)
+				.then((res) => {
+					//then是成功执行的方法 返回的还是一个promise对象
+					console.log(res); //打印张三  res是执行
+					return fn("我是第二层天使", 2000);
+				})
+				.then((res) => {
+					console.log(res);
+					return fn("我是第三层天使", 3000);
+				})
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((res) => {
+					//catch是失败执行的方法
+					console.log(res);
+				});
+
+			//async await
+			//封装一个返回promise的异步任务
+			function fn(str, delayTime) {
+				return new Promise((resolve, reject) => {
+					setTimeout(function () {
+						resolve(str);
+					}, delayTime);
+				});
+			}
+
+			async function test() {
+				console.log(await fn("我是第一层大天使", 1000));
+				console.log(await fn("我是第二层大天使", 2000));
+				console.log(await fn("我是第三层大天使", 3000));
+			}
+
+			test();
+		</script>
+	</body>
+</html>

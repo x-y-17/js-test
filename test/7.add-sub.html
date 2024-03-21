@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var FloatCalc = {
+				add: function (arg1, arg2) {
+					var r1, r2, m;
+					try {
+						r1 = arg1.toString().split(".")[1].length;
+					} catch (e) {
+						r1 = 0;
+					}
+					try {
+						r2 = arg2.toString().split(".")[1].length;
+					} catch (e) {
+						r2 = 0;
+					}
+					m = Math.pow(10, Math.max(r1, r2));
+					return (this.mult(arg1, m) + this.mult(arg2, m)) / m;
+				},
+				sub: function (arg1, arg2) {
+					var r1, r2, m, n;
+					try {
+						r1 = arg1.toString().split(".")[1].length;
+					} catch (e) {
+						r1 = 0;
+					}
+					try {
+						r2 = arg2.toString().split(".")[1].length;
+					} catch (e) {
+						r2 = 0;
+					}
+					m = Math.pow(10, Math.max(r1, r2));
+					//动态控制精度长度
+					n = r1 >= r2 ? r1 : r2;
+					return ((this.mult(arg1, m) - this.mult(arg2, m)) / m).toFixed(n);
+				},
+				mult: function (arg1, arg2) {
+					var m = 0,
+						s1 = arg1.toString(),
+						s2 = arg2.toString();
+					try {
+						m += s1.split(".")[1].length;
+					} catch (e) {}
+					try {
+						m += s2.split(".")[1].length;
+					} catch (e) {}
+					return (
+						(Number(s1.replace(".", "")) * Number(s2.replace(".", ""))) /
+						Math.pow(10, m)
+					);
+				},
+				numDiv: function (arg1, arg2) {
+					arg2 = arg2 || 1;
+					if (!(arg1 === 0 || arg1)) {
+						return undefined;
+					}
+					var t1 = 0;
+					var t2 = 0;
+					var r1;
+					var r2;
+					try {
+						t1 = arg1.toString().split(".")[1].length;
+					} catch (e) {} //eslint-disable-line
+					try {
+						t2 = arg2.toString().split(".")[1].length;
+					} catch (e) {} //eslint-disable-line
+					r1 = Number(arg1.toString().replace(".", ""));
+					r2 = Number(arg2.toString().replace(".", ""));
+					return numMulti(r1 / r2, Math.pow(10, t2 - t1));
+				},
+				numMulti: function (num1, num2) {
+					if (isNoValue(num1)) {
+						num1 = 0;
+					}
+					if (isNoValue(num2)) {
+						num2 = 0;
+					}
+					var baseNum = 0;
+					try {
+						baseNum += num1.toString().split(".")[1].length;
+					} catch (e) {} //eslint-disable-line
+					try {
+						baseNum += num2.toString().split(".")[1].length;
+					} catch (e) {} //eslint-disable-line
+					return (
+						(Number(num1.toString().replace(".", "")) *
+							Number(num2.toString().replace(".", ""))) /
+						Math.pow(10, baseNum)
+					);
+				},
+				divide: function (arg1, arg2) {
+					var t1 = 0,
+						t2 = 0,
+						r1,
+						r2;
+					try {
+						t1 = arg1.toString().split(".")[1].length;
+					} catch (e) {}
+					try {
+						t2 = arg2.toString().split(".")[1].length;
+					} catch (e) {}
+
+					r1 = Number(arg1.toString().replace(".", ""));
+
+					r2 = Number(arg2.toString().replace(".", ""));
+					return this.mult(r1 / r2, Math.pow(10, t2 - t1));
+				},
+				compareDate: function (arg1, arg2) {
+					var t1 = new Date(Date.parse(arg1.replace(/-/g, "/")));
+					var t2 = new Date(Date.parse(arg2.replace(/-/g, "/")));
+
+					return t1 > t2 ? arg1 : arg2;
+				},
+			};
+            let result = FloatCalc.add(1.111111111111,2.111111111111)
+            console.log(result);
+            console.log(1.111111111111+2.111111111111);
+            console.log(this.myKeyPad);
+		</script>
+	</body>
+</html>

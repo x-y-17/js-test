@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var decrypt = function (code, k) {
+				if (k === 0) {
+					return new Array(code.length).fill(0);
+				}
+				let res = [];
+				for (let i = 0; i < code.length; i++) {
+					let p = k > 0 ? i + 1 : i - 1;
+					let temp = 0;
+					if (k > 0) {
+						for (let j = 0; j < k; j++) {
+							if (p === code.length) {
+								p = 0;
+							}
+							temp += code[p];
+							p++;
+						}
+					} else {
+						for (let j = 0; j < k; j++) {
+							if (p === -1) {
+								p = code.length - 1;
+							}
+							temp += code[p];
+							p--;
+						}
+					}
+					res.push(temp);
+				}
+				return res;
+			};
+			decrypt([2,4,9,3],-2);
+		</script>
+	</body>
+</html>

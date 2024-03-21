@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script>
+			// setTimeout(() => {
+			// 	console.log("3");
+			// }, 3000);
+			// setTimeout(() => {
+			// 	console.log(1);
+			// }, 1000);
+			let p1 = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(`这个是p1的成功回调`);
+				}, 3000);
+			});
+
+			let p2 = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(`这个是p2的成功回调`);
+				}, 1000);
+			});
+
+			let p3 = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(`这个是p3的成功回调`);
+				}, 800);
+			});
+
+			//不在乎各个请求的结果，只需要进行了即可
+			// p1.then((data) => {
+			// 	console.log(data);
+			// });
+
+			// p2.then((data) => {
+			// 	console.log(data);
+			// });
+
+			//需要在p1后再请求p2，并且p2用到p1的结果，p1，p2完成后再请求p3
+			// p1.then((res1) => {
+			// 	return res1;
+			// }).then((res1) => {
+			// 	p2Request(res1);
+			// }).catch((error) => {
+			// 	console.log(error);
+			// });
+
+			// let p2Request = (res1) => {
+			// 	p2.then((data) => {
+			// 		console.log(`${res1},${data}`);
+			// 	}).then(() => {
+			// 		p3Request();
+			// 	}).catch((error) => {
+			// 	    console.log(error);
+			// 	});
+			// };
+
+			// let p3Request = () => {
+			// 	p3.then((data) => {
+			// 		console.log(`${data}`);
+			// 	});
+			// };
+
+			//不在乎p1,p2,p3的先后顺序，但是需要在3者请求完成后再进行下一步的操作
+			// let pNext = Promise.all([p1, p2, p3]);
+
+			// pNext.then((data) => {
+			// 	console.log("所有请求都请求完毕",data);
+			// }).catch((error) => {
+			// 	console.log("存在请求失败的情况");
+			// });
+
+			//对于p1，p2，p3的请求，谁先得到结果（结果包括.then的和.catch的），就不执行下面的2个promise方法
+			let pRace = Promise.race([p1, p2, p3]);
+
+			pRace.then((data) => {
+				console.log(data);
+			}).catch((error) => {
+				console.log(error);
+			});
+		</script>
+	</body>
+</html>

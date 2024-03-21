@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const obj1 = {
+      text:1,
+      fn: function(){
+        return this.text
+      }
+    }
+    const obj2 = {
+      text: 2,
+      fn: function() {
+        let fn = obj1.fn;
+        return fn();
+      }
+    }
+    const obj3 ={
+      text:3,
+      fn: function() {
+        var fn = obj1.fn;
+        console.log('obj3Fn this',this);
+        return fn;
+      }
+    }
+    console.log(obj2.fn())
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button class="btn1">计数器：<span>0</span></button>
+		<button class="btn2">计数器2：<span>0</span></button>
+		<script>
+			let btnNode = document.querySelector(".btn1");
+			let btnNode2 = document.querySelector(".btn2");
+			const countFn = () => {
+				return function add(e) {
+					let count = 0;
+					count++;
+					let spanNode = e.target.querySelector("span");
+					console.log(spanNode);
+					spanNode.innerHTML = count;
+				};
+			};
+			btnNode.addEventListener("click", countFn());
+			btnNode2.addEventListener("click", countFn());
+
+			let myName = "极客邦";
+
+			var bar = {
+				myName: "time.geekbang.com",
+				printName: function () {
+					console.log(myName);
+				}
+			};
+			function foo() {
+				let myName = "极客时间";
+				return bar.printName;
+			}
+			let _printName = foo();
+			_printName();
+			bar.printName();
+			let flag;
+			let flag2;
+			function test(str) {
+				if(str === 'a') return false;
+				if(str === 'b') return true;
+			}
+			flag = test('a');
+			flag2 = test('b');
+			console.log(flag,flag2)
+
+		</script>
+	</body>
+</html>

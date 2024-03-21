@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.status {
+				background: #efefef;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+                flex-wrap: wrap;
+			}
+			.status div {
+				padding: 1rem 2rem;
+				font-size: 3rem;
+				border-radius: 1rem;
+				color: white;
+				font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+			}
+			.online-msg {
+				background: green;
+				display: block;
+			}
+			.offline-msg {
+				background: red;
+				display: none;
+			}
+			.offline .offline-msg {
+				display: block;
+			}
+			.offline .online-msg {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="status">
+			<div class="offline-msg">You're offline 😢</div>
+			<div class="online-msg">You're connected 🔗</div>
+			<button class="changeStatus">离线</button>
+		</div>
+		<script>
+			const status = document.querySelector(".status");
+			const changeStatus = document.querySelector(".changeStatus");
+			const onlientMsg = document.querySelector(".online-msg");
+			window.addEventListener("load", () => {
+				console.log(status.classList);
+				const handleNetworkChange = () => {
+					if (navigator.onLine) {
+						status.classList.remove("offline");
+						changeStatus.innerHTML = "离线";
+					} else {
+						status.classList.add("offline");
+						changeStatus.innerHTML = "上线";
+					}
+				};
+
+				window.addEventListener("online", handleNetworkChange);
+				window.addEventListener("offline", handleNetworkChange);
+			});
+		</script>
+	</body>
+</html>

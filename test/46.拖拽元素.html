@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div
+			id="dragElement"
+			style="width: 100px; height: 100px; background-color: red; cursor: move;position: relative;"
+		></div>
+		<script>
+			// 获取拖拽元素
+			const dragElement = document.getElementById("dragElement");
+			//记录鼠标按下时的初始位置和元素的初始偏移量
+			let initialX, initialY, offsetX, offsetY;
+			//鼠标按下事件
+			function onMouseDown(event) {
+				//记录鼠标按下时的初始位置和元素的初始偏移量
+				initialX = event.clientX;
+				initialY = event.clientY;
+				const rect = dragElement.getBoundingClientRect();
+				offsetX = initialX - rect.left;
+				offsetY = initialY - rect.top;
+				//添加鼠标移动和鼠标释放事件监听
+				document.addEventListener("mousemove", onMouseMove);
+				document.addEventListener("mouseup", onMouseUp);
+			}
+			//鼠标移动事件
+			function onMouseMove(event) {
+				//计算鼠标的偏移量
+				const deltaX = event.clientX - initialX;
+				const deltaY = event.clientY - initialY;
+				//更新元素的位置
+				dragElement.style.left = offsetX + deltaX + "px";
+				dragElement.style.top = offsetY + deltaY + "px";
+				console.log(dragElement.style.left, dragElement.style.top);
+			}
+			//鼠标释放事件
+			function onMouseUp() {
+				//移除鼠标移动和鼠标释放事件监听
+				document.removeEventListener("mousemove", onMouseMove);
+				document.removeEventListener("mouseup", onMouseUp);
+			}
+			//添加鼠标按下事件监听
+			dragElement.addEventListener("mousedown", onMouseDown);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<textarea
+			name=""
+			id="txtarea"
+			cols="30"
+			rows="10"
+			maxlength="20"
+		></textarea>
+		<script>
+			const foo = async () => {
+				let res = 1;
+
+				return await new Promise((reslove, reject) => {
+					setTimeout(() => {
+						res = 2;
+                        console.log(res);
+					}, 3000);
+					reslove(res);
+				});
+			};
+
+			foo()
+				.then((res) => {
+					console.log("res:", res);
+				})
+				.catch((error) => {
+					console.log("error:", error);
+				});
+		</script>
+	</body>
+</html>

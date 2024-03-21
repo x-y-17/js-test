@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.animation {
+				width: 100px;
+				height: 100px;
+				margin: 50px auto;
+				background-color: aqua;
+				animation: move 4s linear infinite alternate;
+			}
+			@keyframes move {
+				0% {
+					transform: translate(-100px, 0) scale(1,1);
+				}
+                25%{
+                    transform: translate(0,-50px) rotate(45deg) scale(1.5,1.5);
+                }
+                50%{
+                    transform: translate(100px,0) rotate(90deg) scale(2,2);
+                }
+				75% {
+					transform: translate(0, 50px) rotate(135deg) scale(1.5,1.5);
+				}
+                100% {
+					transform: translate(-100px, 0) rotate(180deg) scale(1,1);
+				}
+			}
+			input {
+				display: none;
+			}
+			.btn {
+				width: 50px;
+				margin: 10px auto;
+				text-align: center;
+				border: 1px solid #ddd;
+				padding: 10px;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+			.btn:hover {
+				background: #ddd;
+				color: #333;
+			}
+			.btn:active {
+				background: #aaa;
+			}
+			#stop:checked ~ .animation {
+				animation-play-state: paused;
+			}
+            
+			#stop:unchecked ~ .animation {
+				animation-play-state: running;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="checkbox" id="stop" name="abc"/>
+		<!-- <input type="radio" id="play" name="abc"/> -->
+		<div class="box">
+			<label for="stop">
+				<div class="btn">stop</div>
+			</label>
+			<!-- <label for="play">
+				<div class="btn">play</div>
+			</label> -->
+		</div>
+		<div class="animation"></div>
+	</body>
+</html>

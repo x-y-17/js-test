@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+		/>
+		<title>Document</title>
+		<style></style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" name="" v-model="message" />
+			<div>{{message}}</div>
+			<ul>
+				<li v-for="(item,index) of list" :key="index">{{item}}</li>
+			</ul>
+			<p>p1</p>
+			<p>p1</p>
+			<p>p1</p>
+            <button @click="changeFlag">change</button>
+            <div v-if="flag">true</div>
+            <div v-else>false</div>
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					message: "this is message",
+                    flag:true,
+					list: ["qwer", "df", "1234567"],
+				},
+				watch: {
+					message: {
+						handler(newVal, old) {
+							console.log("我变了", newVal + "----", old);
+						},
+						immediate: true,
+					},
+				},
+				methods: {
+					init: function () {
+						console.log("这是初始化方法");
+					},
+                    changeFlag(){
+                        this.flag = !this.flag
+                    }
+				},
+				//我们在beforeCreate钩子中调用Vue的data和method
+				beforeCreate() {
+					console.log("beforeCreate", this);
+					// console.log("li数量：", document.getElementsByTagName("li").length);
+					// console.log("p个数：", document.getElementsByTagName("p").length);
+					// debugger;
+				},
+				created() {
+					console.log("created", this);
+					this.init();
+					//因为我们是通过v-for循环遍历li，所以created之前挂载阶段还没开始.是无法获取li的个数的
+					// console.log("li数量：", document.getElementsByTagName("li").length);
+					//直接加载出来的DOM是可以直接获取到的
+					// console.log("p个数：", document.getElementsByTagName("p").length);
+				},
+				beforeMount() {
+					console.log("beforeMount");
+					// console.log("li数量：", document.getElementsByTagName("li").length);
+					// console.log("p个数：", document.getElementsByTagName("p").length);
+				},
+				mounted() {
+					console.log("mounted");
+					// console.log("li数量：", document.getElementsByTagName("li").length);
+					// console.log("p个数：", document.getElementsByTagName("p").length);
+				},
+				beforeUpdate() {
+					console.log("beforeUpdate");
+					console.log("beforeUpdate:" + this.message);
+                    console.log("beforeUpdate:"+ this.flag);
+                    // debugger
+				},
+				updated() {
+					console.log("updated 钩子执行...");
+                    debugger
+					console.log("updated:", this.message);
+				},
+				beforeDestroy() {
+					console.log("beforeDestroy");
+					console.log("beforeDestroy:", this.message);
+				},
+				destroyed() {
+					console.log("destroyed");
+					console.log("destroyed:", this.message);
+				},
+			});
+            console.log('vm',app);
+            app.$destroy();
+            console.log('afterDestroy',app);
+            // setTimeout(() => {
+            //     app.$destroy();
+            //     console.log('afterDestroy',app);
+            // }, 2000);
+        </script>
+	</body>
+</html>

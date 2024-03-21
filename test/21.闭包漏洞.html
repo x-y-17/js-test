@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = (function(){
+            var obj = {
+                a : 1,
+                b : 2,
+            }
+            return  {
+                get : function(key){
+                    // if(obj.hasOwnProperty(key)){
+                        return obj[key]
+                    // }
+                    
+                }
+            }
+        })()
+        //
+        Object.defineProperty(Object.prototype,'ab',{
+            // value : 3,
+            get(){
+                return this;
+            }
+        });
+        // a.get('ab').a = 54;
+        console.log(a.get('ab'));
+        let o = {
+            name : 'x'
+        }
+        console.log(Object());
+    </script>
+</body>
+</html>

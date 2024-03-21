@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    nums = [-1,0,3,5,9,12], target = 9
+    var search = function(nums, target) {
+      let res = -1;
+      let left = 0;
+      let right = nums.length - 1;
+      while(left <= right){
+          let middle = Math.ceil(left + ((right - left) / 2));
+          if (target === nums[middle]) {
+              res = middle;
+          }
+          if (target < nums[middle]) {
+              right = middle - 1;
+          } else {
+              left = middle + 1;
+          }
+      }
+      return res;
+    };
+    console.log(search(nums,target));
+  </script>
+</body>
+</html>

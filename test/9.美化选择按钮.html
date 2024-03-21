@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title></title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.checkboxLabel {
+				position: relative;
+				display: block;
+				cursor: pointer;
+                margin: 200px;
+				width: 20px;
+				height: 20px;
+			}
+			span {
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: block;
+				width: 18px;
+				height: 18px;
+				border: 1px solid #cccccc;
+				cursor: pointer;
+			}
+			input[type="checkbox"] {
+				width: 18px;
+				height: 18px;
+				/* opacity: 0; */
+				display: none;
+			}
+			input[type="checkbox"] + span {
+                background-image: url(./img/unchecked.png);
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+			}
+			input[type="checkbox"]:checked + span {
+                background-image: url(./img/checked.png);
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }
+		</style>
+	</head>
+	<body>
+		<!-- <ul>
+			<li> -->
+				<label for="checkbox_1" class="checkboxLabel">
+					<input type="checkbox" id="checkbox_1" />
+                    <span></span>
+				</label>
+			<!-- </li>
+		</ul> -->
+        <script>
+            let labelNode = document.querySelector('.checkboxLabel');
+            let inputNode = document.querySelector('#checkbox_1');
+            // let ulNode = document.querySelector('ul')
+            // ulNode.addEventListener('click',function(){
+            //     console.log("click ul");
+            // })
+            if([]){
+                console.log(Number(true));
+            }
+            labelNode.addEventListener('click',function(){
+                console.log("click label",inputNode.checked);
+            })
+            inputNode.addEventListener('change',function(){
+                console.log("change input");
+            })
+        </script>
+	</body>
+</html>

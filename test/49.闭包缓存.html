@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function memorize(fn){
+      var cache = {};
+      return function(...args) {
+        var key = JSON.stringify(args);
+        return cache[key] || (cache[key] = fn.apply(fn,args))
+      }
+    }
+    function add(a) {
+      return a+1;
+    }
+    var adder = memorize(add);
+    adder(1);
+    adder(1);
+    adder(2)
+  </script>
+</body>
+</html>

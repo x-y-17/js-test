@@ -1,0 +1,23 @@
+{
+	"data": [
+		{
+			"stockName": "强大亲史教",
+			"stockOrgId": "50",
+			"stockOrgName": "亲种多争任国",
+			"stockId": "77"
+		},
+		{
+			"stockId": "38",
+			"stockName": "了须式局西相",
+			"stockOrgId": "56",
+			"stockOrgName": "点地维"
+		},
+		{
+			"stockId": "49",
+			"stockOrgName": "型取江把海",
+			"stockOrgId": "98",
+			"stockName": "路院委路相南"
+		}
+	],
+	"code": 200
+}

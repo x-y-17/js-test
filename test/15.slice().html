@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //slice()拷贝数组，相当于object.assign()
+        let arr = [
+            {a : [1,2,3]},
+            {b : [3,4,5]},
+            9,
+            undefined
+        ]
+        let b = arr.slice()
+        b[2] = 10;
+        b[0].a = 'test'
+        console.log('arr',arr);
+        console.log('b',b);
+    </script>
+</body>
+</html>

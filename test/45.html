@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var minSubArrayLen = function (target, nums) {
+				let res = 0;
+				let sum = nums[0];
+				let left = 0,
+				right = left + 1;
+				while (left < right) {
+					sum = sum + nums[right];
+					if (sum === target) {
+						res = right - left + 1;
+						sum -= nums[left];
+						sum -= nums[right];
+						left++;
+						continue
+					}
+					if (sum > target) {
+						sum -= nums[left];
+						sum -= nums[right];
+						left++;
+						continue;
+					}
+					if (sum < target) {
+						right++;
+						continue;
+					}
+				}
+				return res;
+			};
+			console.log(minSubArrayLen(7,[2,3,1,2,4,3]))
+		</script>
+	</body>
+</html>

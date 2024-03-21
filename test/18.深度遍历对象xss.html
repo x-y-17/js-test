@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<p><span style="text-decoration:underline;"><em><strong><span style="text-decoration:underline; font-size:20px; color:rgb(255, 0, 0);">物料颜色红色</span></strong></em></span></p>
+		<script src="../test/xss.js"></script>
+		<script>
+			const options = {
+				stripIgnoreTag: true,
+				onTagAttr: function (tag, name, value, isWhiteAttr) {
+					if (name == "alt") {
+						return "alt";
+					}
+					if(name == "style"){
+						return `${name}="${value}"`;
+					}
+				},
+			};
+			// console.log(filterXSS);
+			// var html = filterXSS('用户名或密码错误，5次后用户将会被锁定',options);
+			// console.log(html);
+			// console.log(JSON.parse(JSON.stringify(html)));
+			// const obj = {
+			// 	a: 1,
+			// 	b: {
+			// 		c: "sadaddas",
+			// 		d: {
+			// 			e: 3,
+			// 			f: '<p><a href="javascript:alert(XSS)" onmouseover="alert(document.cookie)" target="_self" title="123" textvalue="123" _href="javascript:alert(XSS)">123</a><br/></p>',
+			// 		},
+			// 	},
+			// };
+
+			const arrObj = {
+				description: '<p><span style="font-size:20px;"><strong><span style="font-size:20px; color:rgb(255, 0, 0);"></span><span style="font-size:20px; color:rgb(255, 0, 0);">物料颜色红色</span></strong></span></p>'
+			};
+
+			// let t = new Promise((resolve, reject) => {
+			// 	setTimeout(() => {
+			// 		console.log("2s");
+			// 	}, 2000);
+			// });
+			const deepDeal = (obj) => {
+				for (let key in obj) {
+					if (typeof obj[key] === "object") {
+						console.log("--key--", key);
+						deepDeal(obj[key]);
+					} else if (typeof obj[key] == "string") {
+						// if (key == "detail!content") {
+						obj[key] = filterXSS(obj[key], options);
+						console.log("-------------obj[key]--------------", key);
+						// }
+					}
+				}
+			};
+			deepDeal(arrObj);
+			console.log(arrObj);
+			// console.log(typeof arrObj);
+			// console.log(t instanceof Object);
+		</script>
+	</body>
+</html>

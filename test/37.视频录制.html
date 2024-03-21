@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <video class="video" width="600px" controls></video>
+    <button class="record-btn">record</button>
+
+    <script>
+        let btn = document.querySelector(".record-btn")
+
+        btn.addEventListener("click", async function () {
+            let stream = await navigator.mediaDevices.getDisplayMedia({
+                video: true
+            })
+
+            //使用MediaRecorder来录制 判断浏览器是否支持
+            const mime = MediaRecorder.isTypeSupported("video/webm; codecs=vp9")
+                ? "video/webm; codecs=vp9"
+                : "video/webm"
+            let mediaRecorder = new MediaRecorder(stream, {
+                mimeType: mime
+            })
+
+            let chunks = []
+            mediaRecorder.addEventListener('dataavailable', function (e) {
+                chunks.push(e.data)
+            })
+
+            // 当点击停止共享按钮时，我们希望录制的视频在视频元素中播放
+            mediaRecorder.addEventListener('stop', function () {
+                let blob = new Blob(chunks, {
+                    type: chunks[0].type
+                })
+                let url = URL.createObjectURL(blob)
+
+                let video = document.querySelector("video")
+                video.src = url
+
+                // 下载录制视频
+                let a = document.createElement('a')
+                a.href = url
+                a.download = 'video.webm'
+                a.click()
+            })
+
+            //开始手动录制
+            mediaRecorder.start()
+        })
+    </script>
+</body>
+
+</html>

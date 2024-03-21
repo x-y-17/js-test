@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.wrap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+				margin: auto;
+				width: 200px;
+				height: 100px;
+                text-align: center;
+                line-height: 100px;
+			}
+            .wrap::after{
+                content: "";
+                border: 3px solid;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-image: linear-gradient(
+						45deg,
+						rgb(184, 159, 218),
+						rgb(15, 48, 194)
+					)
+					1;
+				clip-path: inset(0 96% 0 0);
+				animation: clipPath 3s infinite linear;
+            }
+            @keyframes clipPath {
+				0% {
+					clip-path: inset(0 0 96% 0);
+					filter: hue-rotate(0deg);
+				}
+				25% {
+					clip-path: inset(0 96% 0 0);
+				}
+				50% {
+					clip-path: inset(96% 0 0 0);
+					filter: hue-rotate(360deg);
+				}
+				75% {
+					clip-path: inset(0 0 0 96%);
+				}
+				100% {
+					clip-path: inset(0 0 96% 0);
+					filter: hue-rotate(0deg);
+				}
+			}
+            .wrap2{
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+				margin: auto;
+                margin-top: 150px;
+                width: 200px;
+                height: 200px;
+                background-color: aqua;
+                animation: roll  1s infinite linear;
+                clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            }
+            .wrap2:hover{
+                /* transform: rotate(-1800deg); */
+                /* transition: transform 1s li; */
+            }
+            @keyframes roll{
+                0%{
+                    transform: rotate(0);
+                }
+                100%{
+                    transform:rotate(1800000000000000000000000deg);
+                }
+            }
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+            loading...
+        </div>
+        <div class="wrap2"></div>
+		<script></script>
+	</body>
+</html>

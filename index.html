@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>抽签程序</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #005b80;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>抽签程序</h1>
+        <div class="result" id="result"></div>
+        <button class="button" onclick="drawLottery()">抽取</button>
+    </div>
+
+    <script>
+        // 抽签程序
+        var lotteryResults = []; // 存储已经抽取过的结果
+
+        function drawLottery() {
+            var results = ["结果1", "结果2", "结果3", "结果4", "结果5"]; // 可供抽取的结果
+
+            // 检查是否还有未抽取的结果
+            if (lotteryResults.length === results.length) {
+                alert("已经抽取完所有结果");
+                return;
+            }
+
+            var resultIndex = Math.floor(Math.random() * results.length); // 随机抽取一个结果的索引
+
+            // 判断是否已经抽取过该结果
+            while (lotteryResults.includes(resultIndex)) {
+                resultIndex = Math.floor(Math.random() * results.length);
+            }
+
+            var result = results[resultIndex]; // 根据索引获取抽取的结果
+
+            lotteryResults.push(resultIndex); // 将抽取的结果索引存入已抽取结果的数组
+
+            document.getElementById("result").innerHTML = result; // 将抽取的结果显示在页面上
+        }
+    </script>
+</body>
+</html>

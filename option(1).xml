@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.w3school.com.cn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3school.com.cn https://resource.udinghuo.cn/meta/xsd/limit.xsd?v2">
+	<references>
+		<reference file="java.xml" />
+		<reference file="base.xml" />
+	</references>
+	<component name="option" moduleName="archives" title="业务选项模块">
+		<class name="FunctionOptionBase" title="业务选项公共设置" tableName="functionoptionbase" autoIncrement="true" notIdCache="true" author="xufla">
+			<attributes>
+				<attribute name="captionName" title="选项名称" columnName="cCaptionName" type="String" length="100" />
+				<attribute name="code" title="选项编码" columnName="cCode" type="String" length="100" cacheKey="true" />
+				<attribute name="values" title="可选值集合" columnName="cValues" type="String" length="255" />
+				<attribute name="value" title="选项值" type="String" length="50" isTransient="true"/>
+				<attribute name="valueName" title="值名称" type="String" isTransient="true"/>
+				<attribute name="defaultValue" title="默认值" columnName="cDefaultValue" type="String" length="30" />
+				<attribute name="valueType" title="值类型" columnName="cValueType" type="FunctionOptionValueTypeEnum" length="20" />
+				<attribute name="valueDataType" title="可选值集合数据结构类型" columnName="cValueDataType" type="FunctionOptionValueDataTypeEnum" length="20" />
+				<attribute name="valueMaps" title="业务选项值键值对集合" type="OptionValuesListVO" length="2" collectionType="List"/>
+				<attribute name="sysTypeName" title="选项所属业务类型名称" type="String" length="20" isTransient="true"/>
+				<attribute name="sysType" title="选项所属业务类型编码" columnName="cSysType" type="FunctionOptionSysTypeEnum" length="20" />
+				<attribute name="enable" title="是否可用" columnName="bEnable" type="Boolean" />
+				<attribute name="visible" title="是否可见" columnName="bVisible" type="Boolean" />
+				<attribute name="defaultEnable" title="是否默认开启" columnName="bDefaultEnable" type="Boolean" />
+				<attribute name="beforCheckMethod" title="值改变前干预事件" columnName="cBeforCheckMethod" type="String" length="50" />
+				<attribute name="memo" title="说明" columnName="cMemo" type="String" length="8000" />
+				<attribute name="sort" title="排序" columnName="iOrder" type="Double"/>
+				<attribute name="typeSort" title="业务类型排序" columnName="iTypeOrder" type="Integer" length="2" />
+				<attribute name="bizEnAbleFree" title="是否允许商家独立控制" columnName="bBizEnAbleFree" type="Boolean" />
+				<attribute name="bizShow" title="商家业务模式" columnName="iBizShow" type="FunctionBizModel" />
+				<attribute name="orgShow" title="组织业务模式" columnName="iOrgShow" type="FunctionBizModel" />
+				<attribute name="source" title="来源" columnName="iSource" type="OptionSourceEnum" />
+				<attribute name="sourceCode" title="来源code" columnName="cSourceCode" type="String" />
+				<attribute name="sourceValues" title="来源value" columnName="cSourceValues" type="String" />
+			</attributes>
+		</class>
+		<class name="CorprationBizFree" title="企业商家业务选项是否下沉" tableName="corprationbizfree" notIdCache="true" >
+			<attributes>
+				<attribute name="code" title="业务选项" columnName="cCode" type="String" />
+				<attribute name="bizFree" title="是否商家独立控制" columnName="bBizFree" type="Boolean" />
+				<attribute name="enable" title="是否可用" columnName="bEnable" type="Boolean" />
+				<attribute name="otherCorpId" title="其他租户id" type="Long" isTransient="true"/>
+			</attributes>
+		</class>
+		<class name="CorprationFunctionOption" title="企业业务选项设置" tableName="corprationfunctionoption" notIdCache="true" author="xufla">
+			<attributes>
+				<attribute name="code" title="选项编码" columnName="cCode" type="String"  length="100" cacheKey="true" />
+				<attribute name="value" title="选项值" columnName="cValue" type="String" length="50" />
+				<attribute name="enable" title="是否启用" columnName="bEnable" type="Boolean" />
+				<attribute name="newValue" title="保存前新值" type="String" isTransient="true" length="50" />
+				<attribute name="functionOption" title="所属父类的id" columnName="iFunOptionBaseId"  type="FunctionOptionBase"  ></attribute>
+			</attributes>
+		</class>
+		<voclass name="FunctionOptionListVO" title="业务选项列表" author="xufla">
+			<attributes>
+				<attribute name="activate" title="可用的" type="Boolean" />
+				<attribute name="visible" title="可见的" type="Boolean" />
+				<attribute name="captionName" title="选项名称" type="String"/>
+				<attribute name="captionCode" title="选项编码" type="String" />
+				<attribute name="valueCode" title="值编码" type="String" />
+				<attribute name="valueName" title="值名称" type="String"/>
+				<attribute name="valueType" title="值类型" type="String"/>
+				<attribute name="memo" title="说明" type="String"/>
+				<attribute name="valuesLists" title="可选值集合" type="OptionValuesListVO"/>
+				<attribute name="sort" title="排序" type="Double"/>
+				<attribute name="typeSort" title="业务类型排序" type="Integer"/>
+			</attributes>
+		</voclass>
+		<voclass name="OptionKeyValueVO" title="业务选项键值对集合" author="xufla">
+			<attributes>
+				<attribute name="code" title="编码" type="String" />
+				<attribute name="value" title="值" type="Object" /> 
+				<attribute name="desc" title="描述" type="String" />
+			</attributes>
+		</voclass>
+		<voclass name="BizOptionsVO" title="所有商家业务选项键值对集合" author="xufla">
+			<attributes>
+				<attribute name="bizId" title="商家id" type="Long" />
+				<attribute name="optionKeyValues" title="业务选项集合" type="OptionKeyValueVO" collectionType="List"/> 
+			</attributes>
+		</voclass>
+		<voclass name="OptionValuesListVO" title="业务选项值集合" author="xufla">
+			<attributes>
+				<attribute name="code" title="编码" type="String" />
+				<attribute name="name" title="名称" type="String" />
+			</attributes>
+		</voclass>
+		<voclass name="CorpOptionVO" title="企业业务选项vo" author="lifan">
+			<attributes>
+				<attribute name="corpId" title="租户Id" type="Long" />
+				<attribute name="value" title="选项值" type="String" />
+				<attribute name="code" title="选项编码" type="String" />
+			</attributes>
+		</voclass>
+		<enum name="FunctionOptionSysTypeEnum" title="选项所属模块" store="name" author="xufla" jsonValue="name">
+			<item name="ORDER" title="订单" value="0"/>
+			<item name="PRODUCT" title="商品" value="1"/>
+			<item name="INVENTORY" title="库存" value="2"/>
+			<item name="PAYMENT" title="支付" value="3"/>
+			<item name="AGENT" title="客户" value="4"/>
+			<item name="BASICS" title="基础" value="5"/>
+			<item name="SETTLE" title="结算" value="6"/>
+			<item name="BIZ" title="商家入驻" value="7"/>
+			<item name="UHY" title="会员" value="8"/>
+			<item name="CREDIT" title="信用" value="9"/>
+		</enum>
+		<enum name="FunctionOptionValueDataTypeEnum" title="可选值集合数据结构" store="name" author="xufla" jsonValue="name">
+			<item name="ARRAY" title="数组" value="0"/>
+			<item name="JSON" title="JSON" value="1"/>
+			<item name="OTHER" title="其他" value="2"/>
+		</enum>
+		<enum name="FunctionOptionValueTypeEnum" title="选项值字段类型" store="name" author="xufla" jsonValue="name">
+			<item name="ENUM" title="枚举" value="0"/>
+			<item name="BOOLE" title="布尔" value="1"/>
+			<item name="STRING" title="布尔" value="2"/>
+			<item name="NUMBER" title="布尔" value="3"/>
+		</enum>
+		<enum name="FunctionBizModel" title="选项值字段类型" author="xufla">
+			<item name="BOTH" title="全部" value="0"/>
+			<item name="SINGLE" title="单一" value="1"/>
+			<item name="MULTI" title="多级" value="2"/>
+		</enum>
+		<enum name="OptionSourceEnum" title="业务选项来源" author="lifan">
+			<item name="UDH" title="订货" value="1"/>
+			<item name="PLATFORM" title="平台" value="2"/>
+			<item name="SALES" title="销售" value="3"/>
+		</enum>
+		<enum name="FunctionOptionCodeTypeEnum" title="选项编码" store="name" author="xufla" jsonValue="name">
+			<attributes>
+                <attribute name="isHide" type="boolean" /> 
+            </attributes>
+			<item name="PRODUCTPAGECOUNT" title="订货端每页最多显示商品数量" value="0" isHide="false"/>
+			<item name="CREDITWORTHREMIND" title="客户信用额度控制" value="1" isHide="false"/>
+			<item name="OPENAUXUNIT" title="启用辅计量单位" value="2" isHide="false"/>
+			<item name="OPENSTOCK" title="使用区域仓库" value="4" isHide="false"/>
+			<item name="INVENTORYDISPLAY" title="库存显示方式" value="5" isHide="false"/>
+			<item name="ORDERINVENTORYCHECK" title="不允许超库存订货" value="6" isHide="false"/>
+			<item name="ACCEPTERPINVENTORY" title="接收ERP现存量" value="7" isHide="false"/>
+			<item name="ORDERDELIVERYDATE" title="预计发货日期" value="8" isHide="false"/>
+			<item name="DELIVERYCONFIRMDAY" title="订单自动收货确认" value="9" isHide="false"/>
+			<item name="ORDEROCCUPYSTOCKTIMING" title="库存占用时机" value="10" isHide="false"/>
+			<item name="AGENTMAINTAIN" title="不允许客户维护账户信息" value="11" isHide="false"/>
+			<item name="ORDERTIMEOUTCANCEL" title="超时未付款自动取消订单" value="12" isHide="false"/>
+			<item name="SHOWHOPERERECEIVEDATE" title="订货端显示期望收货日期" value="13" isHide="false"/>
+			<item name="DISPLAYISALES" title="商品详情显示销量" value="14" isHide="false"/>
+			<item name="SHOWPRODUCTFULLNAME" title="快速下单是否显示商品全名" value="15" isHide="true"/>
+			<item name="SHOWPRODUCTORIGINALPRICE" title="商品详情是否显示商品原价" value="16" isHide="false"/>
+			<item name="CHOICEUNITTYPE" title="订货计量单位" value="17" isHide="false"/>
+			<item name="ORDERCANCELTYPE" title="超时自动取消订单时间计量单位" value="18" isHide="false"/>
+			<item name="ORDERPAYFORCONFIRM" title="订单确认后才可付款" value="19" isHide="false"/>
+			<item name="SPECITEMCOUNT" title="属性值数量限制" value="20" isHide="true"/>
+			<item name="PAYMENTACCESSORYEXIST" title="付款单附件必填" value="21" isHide="false"/>
+			<item name="AUXUNITCONVERSIONRATE" title="换算率设置依据" value="22" isHide="false"/>
+			<item name="ORDERBYPRODUCT" title="订货端商品列表排序规则" value="23" isHide="false"/>
+			<item name="PRODUCTRETURNSHOPPINGCART" title="订货端订单编辑时删除商品处理规则" value="24" isHide="false"/>
+			<item name="SHOWPRODUCTUSABLECOUNT" title="确认订单时默认显示可用量" value="25" isHide="false"/>
+			<item name="ORDERAUTOCONFIRM" title="订单自动确认" value="26" isHide="false"/>
+			<item name="ONLINEPAYMENT" title="线上支付" value="27" isHide="false"/>
+			<item name="OFFLINEPAYMENT" title="线下支付" value="28" isHide="false"/>
+			<item name="UNITPRICEPRECISION" title="金额、单价精度" value="29" isHide="false"/>
+			<item name="PRICEMARKUP" title="加价购" value="30" isHide="true"/>
+			<item name="QUERYBYSKUCODE" title="按照sku编码查询" value="31" isHide="true"/>
+			<item name="ADDRESSCOSTOM" title="地址列表" value="32" isHide="true"/>
+			<item name="BANKCUSTOM" title="银行列表" value="33" isHide="true"/>
+			<item name="SETTLEVOUCHERTYPE" title="结算依据" value="34" isHide="false"/>
+			<item name="SHOWDISCOUNT" title="展示扣率" value="35" isHide="true"/>
+			<item name="SHOWSALERETURNNONESOURCE" title="支持无来源退货" value="36" isHide="false"/>
+			<item name="SENDMSGTOSMS" title="发送短信消息" value="37" isHide="true"/>
+			<item name="REPLACERECEIPTCONFIRMATION" title="支持业务员代收货确认" value="38" isHide="false"/>
+			<item name="OPENCOMMENT" title="开启订单评价" value="39" isHide="true"/>
+			<item name="ASTRICTDELIVERYDETAIL" title="按商品行发货限制" value="40" isHide="true"/>
+			<item name="PRODUCTREADYDATE" title="控制商品备货日期" value="41" isHide="false"/>
+			<item name="DISRATECALCRULE" title="客户折扣的计算依据" value="42" isHide="false"/>
+			<item name="FESTIVALSET" title="是否设置自定义主题" value="43" isHide="true"/>
+			<item name="PRODUCTPRICESHOW" title="商品价格为‘0’时的价格展示" value="44" isHide="false"/>
+			<item name="DISPLAYPRICE" title="订货端订单是否隐藏成交价" value="45" isHide="true"/>
+			<item name="ENTERPAYMENT" title="订单提交后自动进入支付界面" value="46" isHide="false"/>
+			<item name="EXPENSEORERSYSPAY" title="费用单确认时，自动耗用资金账户余额进行支付" value="47" isHide="false"/>
+			<item name="USERSELECTSTOCK" title="支持客户自选仓库" value="48" isHide="false"/>
+			<item name="USERSELECTGIVEAWAY" title="是否允许手工增加赠品" value="49" isHide="false"/>
+			<item name="OPENORDERPROAUTH" title="开启订单商品权限" value="50" isHide="true"/>
+			<item name="OPENAUTOSPLIT" title="启用自动分单" value="51" isHide="false"/>
+			<item name="BDUPLICATEPRODUCTERPCODE" title="商品ERP编码可重复" value="52" isHide="true"/>
+			<item name="ORDERLIST_CORPUSER_AUTH" title="订单列表检查人员权限" value="53" isHide="true"/>
+			<item name="REBATE_CORPUSER_AUTH" title="返利单列表检查制单人" value="54" isHide="true"/>
+			<item name="SETTINGTRANSACTIONTYPES" title="支持设定多交易类型" value="55" isHide="false"/>
+			<item name="ORDERMONEY_FORMULA" title="订单金额计算公式" value="56" isHide="true"/>
+			<item name="ORDERLISTDEFAULTDISPLAY" title="控制订单列表默认显示量" value="57" isHide="true"/>
+			<item name="SERVICETERMS" title="启用经销商线上服务协议" value="58" isHide="false"/>
+			<item name="OPENINFORMATION" title="打开订货市场" value="59" isHide="true"/>
+			<item name="HIDEPORDERROMOTION" title="订单隐藏价格及优惠信息" value="60" isHide="true"/>
+			<item name="ORDERAGENTMODIFYPRICE" title="客户下单改价" value="61" isHide="true"/>
+			<item name="TOURISTPRICEBASIS" title="游客价格依据" value="62" isHide="false"/>
+			<item name="UPLOADORDERSPECIAL" title="上传订单专项设置" value="63" isHide="true"/>
+			<item name="INVDISPLAYUNIT" title="库存展示单位" value="64" isHide="false"/>
+			<item name="STARTREBATESOURCE" title="启用返利来源" value="65" isHide="false"/>
+			<item name="REQUIREDEBATESOURCE" title="返利单返利来源必填" value="66" isHide="false"/>
+			<item name="ORDERPUSHERPTYPE" title="U订货订单传ERP方式" value="67" isHide="true"/>
+			<item name="OPENFREIGHT" title="开启运费" value="68" />
+			<item name="OPENFREIGHTRULE" title="多运费模板时运费计算规则" value="69" />
+			<item name="CUSTOMSMSSIGN" title="自定义短信签名" value="70" isHide="true"/>
+			<item name="MODIFYORDERDATE" title="允许调整单据日期" value="71" isHide="true"/>
+			<item name="SKUSHOWMETHOD" title="SKU页签展现方式" value="72" isHide="true"/>
+			<item name="UPDATEAGENTINFO" title="ERP同步更新登录账号" value="73"/>
+			<item name="EXCLUSIVEAPP" title="专属app" value="74" isHide="true"/>
+			<item name="TENANTDEFINEMETA" title="租户设置表单元数据" value="75" isHide="true"/>
+			<item name="REBATEDEVELOP" title="是否使用第三方返利" value="76" isHide="true"/>
+			<item name="OPENCREATEBIZ" title="引入经销商控制" value="77" />
+			<item name="IDENTIFYAGENTPUBPROPERTY" title="确定渠道客户的公有属性" value="78" isHide="true"/>
+			<item name="ORDERSHOWWAY" title="订货端展示方式" value="79" />
+			<item name="PHONEREPETITIONCONTROL" title="手机号重复性控制" value="80" />
+			<item name="CUSTOMERCARE" title="自定义客服" value="82" isHide="true"/>
+			<item name="PRICECHECK" title="价盘校验" value="83"/>
+			<item name="ORDERPRICECHECK" title="订单审核价盘校验" value="84"/>
+			<item name="ORGTOBIZ" title="erp集成组织对商家" value="85" isHide="true"/>
+			<item name="SHOWSKUSEARCH" title="商品弹出框是否展示SKU条件查询" value="86" isHide="true"/>
+			<item name="PRODUCTNOTSHOWPRICE" title="订货端商品列表不显示价格" value="87" isHide="true"/>
+			<item name="FORBIDCORPMODIFYORDERPRICE" title="禁止管理端订单改价" value="88" isHide="true"/>
+			<item name="IDENGTIFYAGENTBYPRODUCTGROUP" title="支持按商品分组确定客户" value="89" isHide="true"/>
+			<item name="RECEIVINGNOTE" title="启用签收" value="90" />
+			<item name="RECEIVINGNOTECONFIRM" title="签收自动确认" value="91" />
+			<item name="USEPLATFORMPRICE" title="平台统一定价" value="92" />
+			<item name="EXTERNALSCANRECEIVE" title="扫码签收支持社会人操作" value="93" />
+			<item name="EXTERNALSCANREDPACKET" title="社会人扫码签收支持发微信现金红包" value="94" />
+			<item name="EXTERNALSIGNINREDPACKET" title="社会人扫码签收支持发微信现金红包" value="94" />
+			<item name="AGENTCREATEPRICEPOLICY" title="启用经销商价盘" value="95" />
+			<item name="TONGYIPRICECONTROL" title="统一专版价表控制 " value="96" isHide="true"/>
+			<item name="RECEIVINGNOTECONFIRMWAY" title="签收确认方式" value="97"/>
+			<item name="DELIVERYAUTOCONFIRM" title="启用发货单自动审核" value="98"/>
+			<item name="SHOWAGENTORG" title="订货端显示销售组织" value="99"/>
+			<item name="AGENTSYNCUHY" title="启用经销商会员" value="100"/>
+			<item name="OPENDIRECTRELATIONMEMBER" title="启用直接交易关系渠道商积分使用" value="101"/>
+			<item name="OPENINDIRECTRELATIONMEMBER" title="启用间接渠道商积分使用" value="102"/>
+			<item name="CORPUSERAGENTGROUPAUTH" title="租户人员按客户分组控制业务权限" value="103" isHide="true"/>
+			<item name="ISAUTHDATALAGER" title="是否是权限数据多的企业" value="104" isHide="true"/>
+			<!-- 2019.2.24王辉添加，隐藏业务选项ERPCODE是否可重复-->
+			<item name="BDUPLICATEAGENTERPCODE" title="客户ERP编码可重复" value="105" isHide="true"/>
+			<item name="PRODUCTMAXOUTPUTCOUNT" title="商品最大导出数量" value="106" isHide="true"/>
+			<item name="OPENUSTOCKSERVICE" title="是否启用库存云服务" value="107" isHide="true"/>
+			<item name="RECENTBUYDAYS" title="最近订购时间参数" value="108" isHide="true"/>
+			<item name="MULTIPLESIMULTANEOUSLOGIN" title="账号登录控制" value="109" isHide="false"/>
+			<item name="AUTOSPLITINVENTORY" title="订单商品发货仓库自动拆行" value="110" isHide="false"/>
+			<!--2019.3.12王辉添加，隐藏业务选项-->
+			<item name="BDUPLICATEAGENTNAME" title="商家内允许客户名称重复" value="111" isHide="true"/>
+			<item name="CLEARAGENTAUTH" title="清除所有客户权限" value="112" isHide="true"/>
+			<item name="CREDIT_MANAGEMENT" title="启用信用管理" value="113" isHide="true"/>
+			<item name="CREDIT_CTRL_NOTSET" title="未设置对象信用时的控制方式" value="114" isHide="true"/>
+			<item name="PRODUCTCENTERPRODUCTDISPLAY" title="商品中心商品同时是商家与组织的商品时订货端展示逻辑1、商家商品、2组织商品" value="115" isHide="true"/>
+			<item name="AGENTERDEFAULTCONTACTER" title="客户本人是否默认联系人" value="116" isHide="true"/>
+			<item name="OPENCOUPONS" title="启用优惠劵" value="117" isHide="false"/>
+			<!--2019.5.11 shizm添加，quickorder设置-->
+			<item name="QUICKORDERISSHOWIMG" title="是否显示商品图片" value="118" isHide="true"/>
+			<item name="QUICKORDERISSHOWBIZ" title="是否显示商家名称" value="119" isHide="true"/>
+			<item name="QUICKORDERISSHOWPRODUCTCODE" title="是否显示商品编码" value="120" isHide="true"/>
+			<item name="QUICKORDERISSHOWSKUCODE" title="是否显示sku编码" value="121" isHide="true"/>
+			<item name="QUICKORDERISSHOWPRICE" title="是否显示价格" value="122" isHide="true"/>
+			<item name="QUICKORDERISSHOWINVENTORY" title="是否显示存量" value="123" isHide="true"/>
+			<item name="QUICKORDERISMERGESKUINFO" title="是否合并Sku信息" value="124" isHide="true"/>
+			<item name="QUICKORDERISSHOWPROMOTION" title="是否显示促销" value="125" isHide="true"/>
+			<item name="QUICKORDERISSHOWSKUDESC" title="是否显示Sku信息" value="126" isHide="true"/>
+			<item name="ELEINVOICE" title="开启电子发票" value="127" isHide="false"/>
+			<item name="IDENTIFYAGENTPUBPROPERTYS" title="确定渠道客户的公有属性" value="128" isHide="false"/>
+			<item name="OPENPOINTSSHIFT" title="启用积分转移" value="129" isHide="false"/>
+			<item name="ADDRESSALLOWEDINCOMPLETE" title="地址允许不完整" value="130" isHide="true"/>
+			<item name="ISENABLEMAXSALEPROD" title="是否控制最大下单商品" value="131" isHide="true"/>
+			<item name="SHOWORDERCOUNT" title="订货端默认展示的订购数量" value="132" isHide="false"/>
+			<item name="ENABLEDEPARTMENTPERMISSION" title="是否要启用部门权限" value="133" isHide="true"/>
+			<item name="OPENPRESALE" title="是否启用预售" value="135" isHide="true"/>
+			<item name="SUBMITCALCALCPROMOTION" title="保存/提交时才计算促销" value="136" isHide="true"/>
+			<item name="MANYTAB" title="单据链接打开方式" value="137" isHide="false"/>
+			<item name="SHOWQUICKCART" title="可加入购物车" value="138" isHide="true"/>
+			<item name="OPENALLOWSALE" title="启用允销控制" value="139" isHide="true"/>
+            <item name="ALLOWMODIFYINVOICE" title="允许客户在线修改、增加开票信息" value="140" isHide="false"/>
+			<item name="INVENTORYWHOLEEXPORT" title="全部导出开关" value="141" isHide="true"/>
+			<item name="SHOWHISTORYDATA" title="可查所有历史数据" value="142" isHide="true"/>
+			<item name="ORDERPRODUCTCOUNTLIMIT" title="控制订单商品行数量" value="143" isHide="true"/>
+            <item name="SELECTORGBYEAI" title="api按照eai编码搜索组织" value="150" isHide="true"/>
+            <item name="ISFILTERPRODUCTCLASS" title="是否过滤商品分类" value="144" isHide="true"/>
+            <item name="MOBILEORDERSIMPLEOPERATION" title="移动管理端订单精简操作" value="145" isHide="false"/>
+			<item name="SHOWPRODUCTSKUIMAGE" title="移动端商品清单显示属性图片" value="146" isHide="false"/>
+			<item name="PASSWORDCOMPLEX" title="登录密码复杂度要求" value="147" isHide="false"/>
+			<item name="DOUBLEAUTHENTICATION" title="管理端登录双因素认证" value="148" isHide="false"/>
+			<item name="REPRESENTPERSON" title="代下单的业务员" value="149" isHide="false"/>
+			<item name="PCORDERSIMPLEOPERATION" title="管理端订单精简操作" value="150" isHide="false"/>
+			<item name="PROMOTIONREALTIME" title="默认实时计算促销" value="151" isHide="false"/>
+			<item name="PROMOTIONPRICEHIGHER" title="促销价高于价表价价格依据" value="154" isHide="true"/>
+			<item name="OPENREPORTCENTER" title="报表中心开关" value="155" isHide="true"/>
+			<item name="QUICKADDCARTWITHSIGNSKU" title="移动订货单品加购方式" value="156" isHide="false"/>
+			<item name="SHOWBIZPRODUCTCLASS" title="企业端显示商品分类开关" value="157" isHide="true"/>
+			<!--2020.9.30王辉添加，隐藏业务选项 :订货端账户信息是否私有/PRIVATIZATION_ORDER_ACCOUNT_INFO-->
+			<item name="PRIVATIZATION_ORDER_ACCOUNT_INFO" title="订货端账户信息是否私有" value="158" isHide="true"/>
+			<item name="AGENTMODIFYCONCATS" title="允许客户维护联系人信息" value="159" isHide="false"/>
+			<item name="AGENTMODIFYADDRESS" title="允许客户维护收货地址" value="160" isHide="false"/>
+			<item name="AGENTMODIFYBANKACCOUNT" title="允许客户维护银行账号信息" value="161" isHide="false"/>
+			<!--2020.9.30王辉添加，隐藏业务选项 :启用客户认证功能/ENABLE_AGENT_VERIFY-->
+			<item name="ENABLE_AGENT_VERIFY" title="启用客户认证功能" value="162" isHide="true"/>
+			<item name="PRODUCTGROUPBUY" title="商品团购开关" value="163" isHide="true"/>
+			<item name="OPENSECKILL" title="秒杀启用开关" value="164" isHide="true"/>
+			<item name="AGENTORDERIMPORT" title="允许订货门户订单导入" value="166" isHide="true"/>
+			<item name="ORDERPRODPICTYPE" title="订货端商品目录显示商品小图" value="167" isHide="false"/>
+			<item name="AGENTSHAREORDER" title="允许订货端分享订单" value="168" isHide="false"/>
+			<item name="AGENTSHAREORDERTIME" title="订货端分享订单有效时间" value="169" isHide="true"/>
+			<item name="ORDERCHANGEPRICENORM" title="订货端订单改价时以优惠金额为准" value="171" isHide="true"/>
+			<item name="AUDITBIZPROMOTION" title="平台审核商家促销活动" value="172" isHide="true"/>
+			<item name="OPENSEAL" title="电子签署" value="174" isHide="true"/>
+			<item name="ALLOWCHOOSETERMINALSTORE" title="允许加盟店下单选择终端网点" value="173" isHide="false"/>
+			<item name="ALLOWRETURNAPPLY" title="允许订货门户退货" value="175" isHide="false"/>
+			<item name="OPENCORPHY" title="启用企业会员" value="176" isHide="false"/>
+			<item name="INITORDERHEADERS" title="初始化订单表头" value="177" isHide="true"/>
+			<item name="PRODUCTSEARCHMODE" title="门户端搜索通过隐藏选项控制使用简易搜索OR高级搜索" value="178" isHide="true"/>
+			<item name="STRICTCHECKAGENTSTOCK" title="门户严格校验客户发货仓库" value="179" isHide="true"/>
+			<item name="ALLOWCONTRACTORDER" title="允许门户端参照销售合同下单" value="180" isHide="false"/>
+			<item name="PRODUCTSPECIFICATION" title="规格说明" value="182" isHide="true"/>
+			<item name="PACKAGESPECIFICATIONS" title="包装规格" value="183" isHide="true"/>
+			<item name="ALLOWDOWLOADELEINVOICE" title="门户端订单详情支持下载电子发票" value="185" isHide="false"/>
+			<item name="ISMERINVENTORY" title="门户端快速下单显示商家现存量" value="186" isHide="false"/>
+			<item name="QUICKORDERISMERINVENTORY" title="我的现存量" value="187" isHide="false"/>
+			<item name="ALLOWORDERPAYMENT" title="允许门户端付款" value="190" isHide="false"/>
+
+			<!--2022.8.9  胡慧彤添加：门户参数增加“允许门户端改价”，选项“启用/停用”，默认停用；-->
+			<item name="ALLOWMODIFYPRICE" title="允许门户端改价" value="188" isHide="false"/>
+			<item name="UNPRICEDGOODS" title="0金额商品不显示" value="189" isHide="true"/>
+		</enum>
+
+		<generalizations>
+			<generalization parent="BaseEntity" child="FunctionOptionBase" />
+			<generalization parent="BaseAuditTenant" child="CorprationBizFree" />
+			<generalization parent="BaseAuditBiz" child="CorprationFunctionOption" />
+		</generalizations>
+	</component>
+</components>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function onResolved(id) {
+				setTimeout(console.log, 0, id, "resolved");
+                // throw new Error('err');
+			}
+			function onRejected(id) {
+				setTimeout(console.log, 0, id, "rejected");
+                // return Promise.reject(111)
+                // throw new Error('err');
+			}
+			let p1 = new Promise((resolve, reject) => {
+                // setTimeout(reject(), 1000);
+                throw new Error('err');
+            });
+            // p1.then(
+			// 	(res) => onResolved(res),
+			// 	(res) => onRejected(res)
+			// ).catch(
+            //     () => {
+            //         console.log('catch2');
+            //     }
+            // );
+			// let p2 = new Promise((resolve, reject) => setTimeout(reject, 3000));
+			p1.then(
+				undefined,
+				(res) => onRejected(res)
+			).catch(
+                () => {
+                    console.log('catch2');
+                }
+            );
+			// p2.then(
+			// 	() => onResolved("p2"),
+			// 	() => onRejected("p2")
+			// );
+			//（3 秒后）
+			// p1 resolved
+			// p2 rejected
+		</script>
+	</body>
+</html>

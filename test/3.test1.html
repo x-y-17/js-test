@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<dl>
+			<dt>Coffee</dt>
+			<dd>Black hot drink</dd>
+			<dt>Milk</dt>
+			<dd>White cold drink</dd>
+		 </dl>
+		<button class="btn1">提交</button>
+		<button class="btn2">提交2</button>
+		<script>
+			const btn1 = document.querySelector(".btn1");
+			const btn2 = document.querySelector(".btn2");
+			const print = () => {
+				console.log("print");
+			};
+			const debounce = (fn, delay) => {
+				let timer;
+				console.log("timer", timer);
+				return function () {
+					if (timer) {
+						clearTimeout(timer);
+					}
+					timer = setTimeout(fn, delay);
+				};
+			};
+			btn1.onclick = debounce(() => {
+				console.log(Date.now());
+			}, 2000);
+			btn2.onclick = () => {
+				console.log("print");
+			};
+		</script>
+	</body>
+</html>
