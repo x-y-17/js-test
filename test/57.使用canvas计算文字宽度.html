@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .s2 {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <span class="s1"></span>
+    <span class="s2"></span>
+    <script>
+      let canvas = document.createElement("canvas");
+      let context = canvas.getContext("2d");
+      let fontSize = 16;
+      context.font = fontSize + "px PingFang SC";
+      let str = "abc";
+      let str2 = "计算文字宽度";
+      let newSpan = document.createElement("span");
+      newSpan.innerHTML = "计算文字宽度";
+      document.querySelector(".s1").innerHTML = str;
+      document.querySelector(".s2").innerHTML = str2;
+      console.log(context.measureText(str).width);
+      console.log(context.measureText(str2).width);
+
+      function calcTextWidth(str, fontSize = 16, fontFamily = 'PingFang SC') {
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
+        context.font= `${fontSize}px ${fontFamily}`
+        return context.measureText(str).width
+      }
+      console.log(calcTextWidth("计算文字宽度"))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+  </head>
+  <body>
+    <button>click</button>
+    <script>
+      function test(){
+        console.log(123);
+      }
+      function debounceTest() {
+        _.debounce(test,2000);
+      }
+      const debounceTest2 = _.debounce(test,2000);
+      const btnNode = document.querySelector('button');
+      btnNode.addEventListener('click',debounceTest)
+    </script>
+  </body>
+</html>

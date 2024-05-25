@@ -1,0 +1,101 @@
+<!--
+ * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
+ * @Date: 2024-04-07 15:20:12
+ * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
+ * @LastEditTime: 2024-04-09 11:39:28
+ * @FilePath: /js-test/echarts-test/1.柱状图.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+      #main,
+      html,
+      body {
+        width: 100%;
+      }
+      #main {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      const option2 = {
+        series: {
+          type: "scatter",
+
+          // 普通样式。
+          itemStyle: {
+            // 点的颜色。
+            color: "red",
+          },
+          label: {
+            show: true,
+            // 标签的文字。
+            formatter: "This is a normal label.",
+          },
+
+          // 高亮样式。
+          emphasis: {
+            itemStyle: {
+              // 高亮时点的颜色。
+              color: "blue",
+            },
+            label: {
+              show: true,
+              // 高亮时标签的文字。
+              formatter: "This is a emphasis label.",
+            },
+          },
+        },
+      };
+      const a= 1;
+      a =2;
+      var myChart = echarts.init(
+        document.getElementById("main"),
+        null,
+        option2
+      );
+      // 指定图表的配置项和数据
+      var option = {
+        xAxis: {
+          type: "category",
+          data: ["Matcha Latte", "Milk Tea", "Cheese Cocoa", "Walnut Brownie"],
+        },
+        yAxis: {},
+        series: [
+          {
+            type: "bar",
+            name: "2015",
+            data: [89.3, 92.1, 94.4, 85.4],
+          },
+          {
+            type: "bar",
+            name: "2016",
+            data: [95.8, 89.4, 91.2, 76.9],
+          },
+          {
+            type: "bar",
+            name: "2017",
+            data: [97.7, 83.1, 92.5, 78.1],
+          },
+        ],
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  </head>
+  <body>
+    <script>
+      let arr1 = [
+        "app_id",
+        "channel_id",
+        "city",
+        "client_id",
+        "country",
+        "device_id",
+        "event_id",
+        "event_time",
+        "game_id",
+        "ingest_time",
+        "ip_address",
+        "login_invite_id",
+        "login_scene_id",
+        "login_scene_param",
+        "network",
+        "os_name",
+        "part_offset",
+        "phone_maker",
+        "phone_model",
+        "platform_id",
+        "product_id",
+        "project_id",
+        "province",
+        "reg_invite_id",
+        "reg_scene_id",
+        "reg_scene_param",
+        "sdk_bind_id",
+        "sdk_login_type",
+        "sub_channel_id",
+        "sub_platform_id",
+        "test_property2",
+        "track_property02",
+        "type",
+        "user_id",
+        "uuid",
+        "vn_cast",
+        "vn_rand",
+        "vn_t1",
+        "vn_t11",
+        "vn_test12",
+        "vn_testttttttt",
+        "vn_testzx",
+      ];
+      let arr2 = [
+        "channel_id",
+        "sdk_yidun_device_id",
+        "android_id",
+        "city",
+        "client_id",
+        "country",
+        "device_id",
+        "event_time",
+        "google_id",
+        "idfa",
+        "imei",
+        "ip_address",
+        "oaid",
+        "os_name",
+        "part_offset",
+        "phone_carrier",
+        "product_id",
+        "proj_package_name",
+        "proj_version_code",
+        "proj_version_name",
+        "project_id",
+        "province",
+        "sdk_bind_id",
+        "sdk_login_channel_type",
+        "sdk_login_type",
+        "sdk_s_login_type",
+        "sdk_yidun_device_check_result",
+        "sdk_yidun_device_check_simulator",
+        "sdk_yidun_device_type",
+        "sub_channel_id",
+        "test_property2",
+        "track_property02",
+        "type",
+        "user_id",
+        "vn_cast",
+        "vn_rand",
+        "vn_sdk_yidun_device_check_auto_touch",
+        "vn_sdk_yidun_device_check_rooted",
+        "vn_sdk_yidun_device_check_security_score",
+        "vn_t1",
+        "vn_t11",
+        "vn_test12",
+        "vn_testttttttt",
+        "vn_testzx",
+      ];
+      let res = [];
+      let obj1 = [{ a: 1 }, { b: 2 }];
+      let obj2 = [{ b: 2 }, { c: 3 }];
+      // arr1.forEach(item => {
+      //   arr2.forEach(item2 => {
+      //     if(item === item2) {
+      //       res.push(item);
+      //     }
+      //   })
+      // })
+
+      // 下面这种或lodash的普通取交集可以获取基本类型数组的交集 _.intersection
+      const propertyIntersection = propertyArr.reduce((a, b) => a.filter((c) => b.includes(c)))
+      // 以下面这种方式才可以取到对象数组的交集
+      res = _.intersectionWith(obj1, obj2, _.isEqual);
+      console.log(res);
+    </script>
+  </body>
+</html>

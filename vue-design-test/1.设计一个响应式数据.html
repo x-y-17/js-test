@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    let activeEffect;
+    const effectStack = []
+    function effect(fn) {
+      const effectFn = () => {
+        cleanup(effectFn)
+        activeEffect = effectFn
+        effectStack.push(effectFn)
+        fn()
+        // 在当前副作用函数执行完毕后，将当前副作用函数弹出，并把activeEffect恢复为之前的值
+        effectStack.pop()
+        activeEffect = effectStack[effectStack.length - 1]
+      }
+      effectFn.deps = []
+
+      effectFn()
+    }
+    const data = { ok: true, text: "hello" };
+    const bucket = new WeakMap(); //存储副作用函数的桶
+    const obj = new Proxy(data, {
+      get(target, key) {
+        //将副作用函数activeEffect添加到存储副作用的桶中
+        track(target, key);
+        return target[key];
+      },
+      set(target, key, newVal) {
+        target[key] = newVal;
+        trigger(target, key);
+      },
+    });
+    function track(target, key) {
+      if (!activeEffect) return;
+      let depsMap = bucket.get(target);
+      if (!depsMap) {
+        bucket.set(target, (depsMap = new Map()));
+      }
+      let deps = depsMap.get(key);
+      if (!deps) {
+        depsMap.set(key, (deps = new Set()));
+      }
+      deps.add(activeEffect);
+      activeEffect.deps.push(deps)
+    }
+
+    function trigger(target, key) {
+      let depsMap = bucket.get(target);
+      if (!depsMap) return;
+      const effects = depsMap.get(key);
+      const effectsToRUn = new Set(effects)
+      effectsToRUn && effectsToRUn.forEach((effectFn) => effectFn());
+    }
+
+    function cleanup(effectFn) {
+      for(let i = 0;i < effectFn.deps.length; i++) {
+        const deps = effectFn.deps[i]
+        deps.delete(effectFn)
+      }
+      effectFn.deps.length = 0
+    }
+    effect(() => {
+      console.log('effect')
+      document.body.innerText = obj.ok ? obj.text : "not";
+    });
+    obj.ok = false
+    setTimeout(() => {
+      obj.text = 'hello yx'
+    }, 1000);
+  </script>
+</html>

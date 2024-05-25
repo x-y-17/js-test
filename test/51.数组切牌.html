@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      Array.prototype.adjust = function (start, end, position) {
+        if (!end) {
+          end = this.length;
+        }
+        if (start > end) {
+          position = end;
+          end = this.length;
+        }
+        if (start === end) {
+          return [...this];
+        }
+        if (!position || position < 0) {
+          position = 0;
+        }
+        if (position < start) {
+          return [
+            ...this.slice(0, position),
+            ...this.slice(start, end),
+            ...this.slice(position, start),
+            ...this.slice(end),
+          ];
+        } else if (position > end) {
+          return [
+            ...this.slice(0, start),
+            ...this.slice(end, position),
+            ...this.slice(start, end),
+            ...this.slice(position),
+          ];
+        } else {
+          return [...this];
+        }
+      };
+      let arr = [1,2,3,4,5,6,7,8]
+      console.log(arr.adjust(6,4))
+    </script>
+  </body>
+</html>
