@@ -8,22 +8,30 @@
   <body></body>
   <script>
     let activeEffect;
-    const effectStack = []
-    function effect(fn) {
+    const effectStack = [];
+    function effect(fn, options = {}) {
       const effectFn = () => {
-        cleanup(effectFn)
-        activeEffect = effectFn
-        effectStack.push(effectFn)
-        fn()
+        cleanup(effectFn);
+        // 当调用effect注册副作用函数时，将副作用函数赋值给activeEffect
+        activeEffect = effectFn;
+        // 在调用副作用函数之前将当前副作用函数压入栈中
+        effectStack.push(effectFn);
+        // 将fn的执行结果存储到res中
+        const res = fn();
         // 在当前副作用函数执行完毕后，将当前副作用函数弹出，并把activeEffect恢复为之前的值
-        effectStack.pop()
-        activeEffect = effectStack[effectStack.length - 1]
+        effectStack.pop();
+        activeEffect = effectStack[effectStack.length - 1];
+        return res;
+      };
+      effectFn.options = options; // 将options挂在到effectFn上
+      effectFn.deps = [];
+      // 只有非lazy时才执行
+      if (!options.lazy) {
+        effectFn();
       }
-      effectFn.deps = []
-
-      effectFn()
+      return effectFn;
     }
-    const data = { ok: true, text: "hello" };
+    const data = { foo: 1, bar: 2 };
     const bucket = new WeakMap(); //存储副作用函数的桶
     const obj = new Proxy(data, {
       get(target, key) {
@@ -36,6 +44,7 @@
         trigger(target, key);
       },
     });
+
     function track(target, key) {
       if (!activeEffect) return;
       let depsMap = bucket.get(target);
@@ -47,31 +56,113 @@
         depsMap.set(key, (deps = new Set()));
       }
       deps.add(activeEffect);
-      activeEffect.deps.push(deps)
+      activeEffect.deps.push(deps);
     }
 
     function trigger(target, key) {
       let depsMap = bucket.get(target);
       if (!depsMap) return;
       const effects = depsMap.get(key);
-      const effectsToRUn = new Set(effects)
-      effectsToRUn && effectsToRUn.forEach((effectFn) => effectFn());
+      const effectsToRun = new Set();
+      effects &&
+        effects.forEach((effectFn) => {
+          // 如果trigger触发执行的副作用函数与当前正在执行的副作用函数相同，则不触发执行
+          if (effectFn !== activeEffect) {
+            effectsToRun.add(effectFn);
+          }
+        });
+      effectsToRun.forEach((effectFn) => {
+        // 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+        if (effectFn.options.scheduler) {
+          effectFn.options.scheduler(effectFn);
+        } else {
+          effectFn();
+        }
+      });
+      // effectsToRun && effectsToRun.forEach((effectFn) => effectFn());
     }
 
+    // 避免副作用函数遗留
     function cleanup(effectFn) {
-      for(let i = 0;i < effectFn.deps.length; i++) {
-        const deps = effectFn.deps[i]
-        deps.delete(effectFn)
+      for (let i = 0; i < effectFn.deps.length; i++) {
+        const deps = effectFn.deps[i];
+        deps.delete(effectFn);
       }
-      effectFn.deps.length = 0
+      effectFn.deps.length = 0;
     }
-    effect(() => {
-      console.log('effect')
-      document.body.innerText = obj.ok ? obj.text : "not";
-    });
-    obj.ok = false
-    setTimeout(() => {
-      obj.text = 'hello yx'
-    }, 1000);
+
+    effect(
+      () => {
+        console.log(obj.foo);
+      },
+      // options
+      {
+        // 调度器scheduler是一个函数
+        scheduler(fn) {
+          // 每次调度时，将副作用函数添加到 jobQueue队列中
+          console.log("🚀 ~ scheduler ~ fn:", fn)
+          jobQueue.add(fn);
+          // 调用flushJob刷新队列
+          flushJob();
+        },
+        lazy: false,
+      }
+    );
+
+    const jobQueue = new Set();
+    // 使用 Promise.resolve() 创建一个 promise 实例，我们用它将一个任务添加到微任务队列
+    const p = Promise.resolve();
+    // 一个标志代表是否正在刷新队列
+    let isFlushing = false;
+    function flushJob() {
+      console.log("🚀 ~ flushJob ~ flushJob:", 'flush')
+      // 如果队列正在刷新，则什么都不做
+      if (isFlushing) return;
+      // 设置为true 代表正在刷新
+      isFlushing = true;
+      // 在微任务队列中刷新jobQueue队列
+      p.then(() => {
+        console.log("🚀 ~ flushJob ~ flushJob:", 'then')
+        jobQueue.forEach((job) => job());
+      }).finally(() => {
+        // 结束后重置 isFlushing
+        isFlushing = false;
+      });
+    }
+    obj.foo++;
+    obj.foo++;
+
+    // function computed(getter) {
+    //   //value用来缓存上一次计算的值
+    //   let value;
+    //   // dirty 标志，用来标识是否需要重新计算值，为true意味着“脏” 需要重新计算
+    //   let dirty = true
+    //   const effectFn = effect(getter, {
+    //     lazy: true,
+    //     scheduler() {
+    //       if(!dirty) {
+    //         dirty = true
+    //         // 当计算属性依赖的响应式数据发生变化时，手动调用trigger函数触发响应
+    //         trigger(obj,'value')
+    //       }
+    //     }
+    //   });
+    //   const obj = {
+    //     get value() {
+    //       if(dirty){
+    //         value = effectFn()
+    //         dirty = false
+    //       }
+    //       // 当读取value时，手动调用track函数进行追踪
+    //       track(obj,'value')
+    //       return value;
+    //     },
+    //   };
+    //   return obj;
+    // }
+    // const sumRes = computed(() => obj.foo +obj.bar)
+    // console.log("🚀 ~ sumRes:", sumRes.value)
+    // obj.foo++
+    // console.log("🚀 ~ sumRes2:", sumRes.value)
   </script>
 </html>
