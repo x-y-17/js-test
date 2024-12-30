@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        line {
+    stroke: red;
+    stroke-width: 2px;
+    marker-start: url(#markerCircle);
+    marker-end: url(#markerArrow);
+}
+    </style>
+</head>
+<body>
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <marker id="markerCircle" markerWidth="8" markerHeight="8" refX="4" refY="4">
+               <circle cx="4" cy="4" r="2.5">
+            </marker>
+            <marker id="markerArrow" markerWidth="12" markerHeight="12" refX="2" refY="6"
+     orient="auto">
+               <path d="M2,3 L2,10 L8,6 L2,3">
+            </marker>
+        </defs>
+     </svg>
+     <svg width="150" height="20">
+        <line x1="110" y1="10" x2="130" y2="10"></line>
+    </svg>
+</body>
+</html>

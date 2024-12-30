@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      .s1,
       .s2 {
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: 400;
+        font-family: fangsong;
+        line-height: 1.6;
       }
     </style>
   </head>
@@ -16,9 +20,9 @@
     <script>
       let canvas = document.createElement("canvas");
       let context = canvas.getContext("2d");
-      let fontSize = 16;
-      context.font = fontSize + "px PingFang SC";
-      let str = "abc";
+      let fontSize = 14;
+      context.font = fontSize + "px fangsong";
+      let str = "2388414";
       let str2 = "计算文字宽度";
       let newSpan = document.createElement("span");
       newSpan.innerHTML = "计算文字宽度";
@@ -27,13 +31,13 @@
       console.log(context.measureText(str).width);
       console.log(context.measureText(str2).width);
 
-      function calcTextWidth(str, fontSize = 16, fontFamily = 'PingFang SC') {
+      function calcTextWidth(str, fontSize = 14, fontFamily = "fangsong") {
         let canvas = document.createElement("canvas");
         let context = canvas.getContext("2d");
-        context.font= `${fontSize}px ${fontFamily}`
-        return context.measureText(str).width
+        context.font = `${fontSize}px ${fontFamily}`;
+        return context.measureText(str).width;
       }
-      console.log(calcTextWidth("计算文字宽度"))
+      console.log(calcTextWidth("计算文字宽度"));
     </script>
   </body>
 </html>

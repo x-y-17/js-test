@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        foo: 1,
+        get bar() {
+          return this.foo;
+        },
+      };
+      const p = new Proxy(obj, {
+        // 拦截读取操作，接收第三个参数 receiver
+        get(target, key, receiver) {
+          console.log("🚀 ~ get ~ target:", target);
+          console.log("🚀 ~ get ~ receiver:", receiver);
+          // track(target, key);
+          // 使用 Reflect.get 返回读取到的属性值
+          return Reflect.get(target, key, receiver);
+        },
+        // 省略部分代码
+      });
+      console.log(p.foo);
+    </script>
+  </body>
+</html>
