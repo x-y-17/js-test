@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="div">
+    </div>
+    <div id="div2">
+    </div>
+    <button id="btn">点击</button>
+    <script>
+        let flag = false;
+        const fn1 = (a) => {
+        return new Promise((resolve, reject) => {
+            if(a) {
+                resolve('success');
+            } else {
+                // reject('error');
+                resolve('false');
+
+            }
+        });}
+        document.getElementById('btn').addEventListener('click', () => {
+            fn1(flag).then(res => {
+                console.log(res);
+                document.getElementById('div').innerHTML = res;
+            }).catch(err => {
+                console.log(err);
+                document.getElementById('div2').innerHTML = err;
+            }).finally(() => {
+                flag = !flag;
+            });
+        });
+    </script>
+</body>
+</html>

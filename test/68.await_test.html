@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function test() {
+        console.log("test1");
+        const pro = await new Promise((resolve, reject) => {
+          console.log("test2");
+          reject();
+        })
+          .then(() => {
+            console.log("test3");
+            return "test3";
+          })
+          .catch(() => {
+            console.log("test4");
+          });
+        console.log("test5");
+        console.log(pro);
+      }
+      test();
+    </script>
+  </body>
+</html>

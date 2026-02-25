@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const func_1 = () => {
+        console.log("func_1");
+        return func_2("abc");
+      };
+      const func_2 = (a) => {
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("func_2", a);
+            resolve();
+          }, 1000);
+        });
+      };
+      Promise.all([func_1()]);
+
+      let total = 0;
+      for (let i = 10; i < 100; i++) {
+        total = i * 169;
+        if (total >= 1500) {
+          total -= 150;
+        }else if(total >= 500){
+          total -= 50;
+        }
+        const count_200 = Math.floor(total / 200);
+        total -= count_200 * 20;
+        // console.log(`买${i}桶的每桶单价为：`, Number((total / i).toFixed(2)))
+      }
+      const obj1 ={ 
+        a:3,
+        b:{
+          c:4
+        }
+      }
+      const obj2 ={...obj1}
+      obj2.a = 5
+      obj2.b = 6
+      console.log('obj1',obj1)
+      console.log('obj2',obj2)
+    </script>
+  </body>
+</html>

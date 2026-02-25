@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="register()">注册（生成凭证）</button>
+    <button onclick="login()">登录（获取凭证）</button>
+    <script>
+    // 生成随机的 ArrayBuffer
+    function randomBuffer(len) {
+        const buf = new Uint8Array(len);
+        window.crypto.getRandomValues(buf);
+        return buf;
+    }
+
+    // 注册（创建凭证）
+    async function register() {
+        if (!window.PublicKeyCredential) {
+            alert('当前浏览器不支持 WebAuthn');
+            return;
+        }
+        const publicKey = {
+            challenge: randomBuffer(32), // 必须是高强度随机
+            rp: { name: "示例网站" },
+            user: {
+                id: randomBuffer(32), // 必须唯一且长度足够
+                name: "testuser",
+                displayName: "测试用户"
+            },
+            pubKeyCredParams: [
+                { type: "public-key", alg: -7 }, // ES256
+                { type: "public-key", alg: -257 } // RS256
+            ],
+            authenticatorSelection: {
+                authenticatorAttachment: "platform", // 可选: "cross-platform"
+                userVerification: "preferred"
+            },
+            timeout: 60000,
+            attestation: "none"
+        };
+        try {
+            const cred = await navigator.credentials.create({ publicKey });
+            console.log("注册成功，凭证对象：", cred);
+            alert('注册成功！请查看控制台详情。');
+            window._lastCredential = cred; // 方便后续调试
+        } catch (e) {
+            alert('注册失败: ' + e);
+        }
+    }
+
+    // 登录（获取凭证）
+    async function login() {
+        if (!window.PublicKeyCredential) {
+            alert('当前浏览器不支持 WebAuthn');
+            return;
+        }
+        const publicKey = {
+            challenge: randomBuffer(32), // 必须是高强度随机
+            timeout: 60000,
+            userVerification: "preferred",
+            // allowCredentials: [{ id: ..., type: "public-key" }] // 实际登录时应指定
+        };
+        try {
+            const assertion = await navigator.credentials.get({ publicKey });
+            console.log("登录成功，断言对象：", assertion);
+            alert('登录成功！请查看控制台详情。');
+        } catch (e) {
+            alert('登录失败: ' + e);
+        }
+    }
+    </script>
+</body>
+</html>

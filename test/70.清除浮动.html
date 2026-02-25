@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .float-child {
+      float: left;
+      /* 父元素高度变为 0，next元素会上移 */
+    }
+    .parent {
+  overflow: hidden; /* 或 auto */
+  /* 或 display: flow-root; (现代方案) */
+}
+  </style>
+</head>
+
+<body>
+  <!-- 问题示例 -->
+  <div class="parent">
+    <div class="float-child">浮动元素</div>
+  </div>
+  <div class="next">我会跑上去</div>
+  <script>
+    // const a = {
+    //   value: 1,
+    // };
+    // const flag = true;
+    // const c = {
+    //   value: 2,
+    // };
+    // function fn() {
+    //   const a = flag ? a.value : c.value;
+    //   console.log(a);
+    // }
+
+    // fn();
+    const obj1 = {
+      a: {
+        b: 1,
+      }
+    }
+    const obj2 = {
+      a: {
+        c: 3
+      }
+    }
+    console.log('obj1', obj1)
+    console.log('obj3', Object.assign(obj2, obj1))
+  </script>
+</body>
+
+</html>
